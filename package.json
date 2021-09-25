@@ -1,49 +1,50 @@
 {
-  "name": "x-poppy-web",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@ant-design/icons": "^4.6.4",
-    "@ant-design/pro-form": "^1.37.0",
-    "@ant-design/pro-layout": "^6.24.3",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "antd": "^4.16.13",
-    "axios": "^0.21.1",
-    "classnames": "^2.3.1",
-    "i18next": "^20.3.2",
-    "i18next-browser-languagedetector": "^6.1.2",
-    "md5": "^2.3.0",
-    "nprogress": "^0.2.0",
-    "query-string": "^7.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-helmet": "^6.1.0",
-    "react-i18next": "^11.11.0",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "redux": "^4.1.0",
-    "redux-thunk": "^2.3.0",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
-  },
+  "name": "@x-poppy/poppy-web",
+  "version": "0.0.4",
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "CI=true react-app-rewired build",
+    "test:dev": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests --coverage --outputFile=result.json src",
+    "test:ci": "CI=true react-scripts test --passWithNoTests --silent --ci --coverage --testLocationInResults --json --outputFile=\"report.json\"",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier src --write",
+    "eject": "react-scripts eject",
+    "prepare": "husky install",
+    "storybook": "start-storybook -p 6006 -s public",
+    "storybook:build": "build-storybook -s public",
+    "storybook:deploy": "gh-pages -d storybook-static"
   },
+  "author": "X-Poppy",
+  "license": "MIT",
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
+  },
+  "files": [
+    "build"
+  ],
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
   },
   "browserslist": {
     "production": [
@@ -59,17 +60,63 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@storybook/addon-actions": "^6.3.8",
+    "@storybook/addon-essentials": "^6.3.8",
+    "@storybook/addon-links": "^6.3.8",
+    "@storybook/node-logger": "^6.3.8",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.8",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
     "@types/nprogress": "^0.2.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/webpack-env": "^1.16.2",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
     "babel-plugin-import": "^1.13.3",
+    "commitlint": "^13.1.0",
     "compression-webpack-plugin": "^5.0.2",
     "customize-cra": "^1.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "gh-pages": "^3.2.3",
+    "husky": "^7.0.2",
     "less": "^4.1.1",
     "less-loader": "5",
-    "node-sass": "^4.7.2",
+    "lint-staged": "^11.1.2",
+    "md5": "^2.3.0",
+    "node-sass": "^6.0.1",
+    "prettier": "^2.3.2",
     "react-app-rewired": "^2.1.8",
-    "redux-devtools-extension": "^2.13.9",
-    "sass-loader": "^6.0.6"
+    "react-scripts": "4.0.3",
+    "sass-loader": "^6.0.6",
+    "storybook-react-i18next": "^1.0.9",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.6.4",
+    "@ant-design/pro-form": "^1.37.0",
+    "@ant-design/pro-layout": "^6.24.3",
+    "antd": "^4.16.13",
+    "axios": "^0.21.1",
+    "axios-hooks": "^2.7.0",
+    "classnames": "^2.3.1",
+    "i18next": "^20.3.2",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "nprogress": "^0.2.0",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-i18next": "^11.11.0",
+    "react-router-dom": "^5.2.0",
+    "swr": "^1.0.0",
+    "web-vitals": "^1.0.1"
   }
 }
